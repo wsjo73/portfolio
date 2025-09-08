@@ -121,6 +121,8 @@ const Card = ({ children }) => (
 );
 
 export default function StudentShowcase() {
+    const [showResume, setShowResume] = useState(false);
+    const [resumeUrl] = useState('/resume.pdf');
     const [artFilter, setArtFilter] = useState("All");
     const artCategories = useMemo(
         () => ["All", ...Array.from(new Set(ART.map((a) => a.category)))],
@@ -145,12 +147,12 @@ export default function StudentShowcase() {
                         <a className="hover:opacity-70" href="#about">About</a>
                         <a className="hover:opacity-70" href="#contact">Contact</a>
                     </nav>
-                    <a
-                        href="#resume"
+                    <button
+                        onClick={() => setShowResume(true)}
                         className="text-sm rounded-xl border px-3 py-1.5 hover:shadow-sm"
                     >
                         Resume
-                    </a>
+                    </button>
                 </div>
             </header>
 
@@ -309,6 +311,42 @@ export default function StudentShowcase() {
             <footer className="py-10 text-center text-xs text-slate-500">
                 © {new Date().getFullYear()} Your Name. All rights reserved.
             </footer>
+
+            {/* Resume Modal */}
+            {showResume && (
+                <div
+                    className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+                    onClick={() => setShowResume(false)}
+                >
+                    <div className="bg-white w-full max-w-3xl rounded-2xl shadow-2xl border overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between px-4 py-3 border-b">
+                            <h3 className="font-semibold">Resume Preview</h3>
+                            <div className="flex items-center gap-2">
+                                <a
+                                    href={resumeUrl}
+                                    download
+                                    className="text-sm rounded-xl border px-3 py-1.5 hover:shadow-sm"
+                                >
+                                    Download PDF
+                                </a>
+                                <button
+                                    onClick={() => setShowResume(false)}
+                                    className="text-sm rounded-xl border px-3 py-1.5 hover:shadow-sm"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                        <div className="h-[70vh] bg-slate-50">
+                            <iframe
+                                title="Resume"
+                                src={`${resumeUrl}#view=FitH`}
+                                className="w-full h-full"
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
