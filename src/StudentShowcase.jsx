@@ -251,10 +251,11 @@ export default function StudentShowcase() {
             <Section id="achievements" title="Selected Achievements">
                 <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
                     {[
-                        "Regeneron STS Semifinalist (Top 300)",
-                        "AIME Qualifier; USACO Silver",
+                        // "Regeneron STS Semifinalist (Top 300)",
                         "FIRST Robotics – Scouting Lead, Worlds qualifier",
                         "MIT Beaver Works – Dr. Bob Disruptive Engineering Award",
+                        "AIME Qualifier",
+                        "USACO Silver"
                     ].map((a) => (
                         <li key={a} className="rounded-2xl border bg-white p-4">
                             {a}
