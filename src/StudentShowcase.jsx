@@ -187,7 +187,7 @@ export default function StudentShowcase() {
                             <img
                                 alt="cover"
                                 className="h-full w-full object-cover"
-                                src="https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?q=80&w=1400&auto=format&fit=crop"
+                                src="/andrew.jpg"
                             />
                         </div>
                     </motion.div>
