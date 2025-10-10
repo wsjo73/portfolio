@@ -19,19 +19,20 @@ const RESEARCH = [
             "https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=1400&auto=format&fit=crop",
     },
     {
-        title: "Lightweight ViT-LSTM for VQA 2.0",
+        title: "Application of Graph Neural Networks for Optimization and\n" +
+            "Design of Modern Subway Systems\n",
         role: "Co‑author",
-        year: "2025",
+        year: "2024",
         summary:
-            "Designed compact ViT encoder with LSTM decoder for visual question answering; achieved strong accuracy with low compute.",
-        tags: ["Computer Vision", "Transformers", "PyTorch"],
+            "Used Graph Neural Networks to optimize subway system design, achieving fast and accurate efficiency predictions for complex transportation networks.",
+        tags: ["Graph Neural Networks", "Optimization", "Transportation Networks", "PyTorch Geometric", "Deep Learning"],
         links: {
-            paper: "#",
+            paper: "/research/Graph Neural Network for Optimization.pdf",
             code: "#",
             poster: "#",
         },
         cover:
-            "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1400&auto=format&fit=crop",
+            "/research/subway.jpg",
     },
     {
         title: "Chaos in Pendulum Lattices",
