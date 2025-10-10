@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 // --- SAMPLE DATA (edit me!) ---
@@ -47,6 +47,16 @@ const RESEARCH = [
 ];
 
 const ART = [
+    {
+        title: "Math Made (Digital)",
+        medium: "Video",
+        category: "Video",
+        year: "2025",
+        src: "/YoungArtsFinalVideo.mov",
+        mediaType: "video",
+        // poster: "/youngarts-poster.jpg", // optional
+        posterFrom: "last-frame",
+    },
     {
         title: "Midnight Alley (Oil)",
         medium: "Oil on canvas",
@@ -187,7 +197,7 @@ export default function StudentShowcase() {
                             <img
                                 alt="cover"
                                 className="h-full w-full object-cover"
-                                src="/andrew.jpg"
+                                src="/andrew-v2.jpg"
                             />
                         </div>
                     </motion.div>
@@ -351,6 +361,68 @@ export default function StudentShowcase() {
     );
 }
 
+function VideoThumb({ item, className }) {
+    const [thumb, setThumb] = useState(item.poster || null);
+
+    useEffect(() => {
+        let cancelled = false;
+        if (item.poster || item.posterFrom !== "last-frame") return;
+        const video = document.createElement("video");
+        video.crossOrigin = "anonymous";
+        video.preload = "auto";
+        video.src = item.src;
+        const onLoaded = () => {
+            // Seek to near the end to avoid potential exact duration seek issues
+            const t = Math.max(0, (video.duration || 0) - 0.1);
+            // Some browsers require a play-pause before seeking for certain codecs; guard silently.
+            const seek = () => {
+                try { video.currentTime = t; } catch { /* ignore */ }
+            };
+            if (video.readyState >= 1) seek();
+        };
+        const onSeeked = () => {
+            try {
+                const canvas = document.createElement("canvas");
+                canvas.width = video.videoWidth || 1280;
+                canvas.height = video.videoHeight || 720;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+                if (!cancelled) setThumb(dataUrl);
+            } catch {
+                // ignore drawing errors; leave thumb null
+            }
+        };
+        video.addEventListener("loadedmetadata", onLoaded, { once: true });
+        video.addEventListener("seeked", onSeeked, { once: true });
+        // iOS sometimes doesn't fire loadedmetadata if not appended; append offscreen briefly
+        document.body.appendChild(video);
+        // Clean up
+        return () => {
+            cancelled = true;
+            video.removeEventListener("loadedmetadata", onLoaded);
+            video.removeEventListener("seeked", onSeeked);
+            if (video.parentNode) video.parentNode.removeChild(video);
+        };
+    }, [item]);
+
+    if (thumb) {
+        return <img src={thumb} alt={item.title} className={className} />;
+    }
+    // Fallback to a lightweight metadata-only video thumbnail if extraction hasn't finished
+    return (
+        <video
+            src={item.src}
+            className={className}
+            muted
+            playsInline
+            loop
+            preload="metadata"
+            poster={item.poster}
+        />
+    );
+}
+
 function Gallery({ items }) {
     const [openIndex, setOpenIndex] = useState(null);
 
@@ -368,7 +440,11 @@ function Gallery({ items }) {
                         className="group text-left rounded-2xl border bg-white overflow-hidden"
                     >
                         <div className="aspect-[4/3] overflow-hidden">
-                            <img src={a.src} alt={a.title} className="h-full w-full object-cover group-hover:scale-[1.02] transition" />
+                            {a.mediaType === "video" ? (
+                                <VideoThumb item={a} className="h-full w-full object-cover group-hover:scale-[1.02] transition" />
+                            ) : (
+                                <img src={a.src} alt={a.title} className="h-full w-full object-cover group-hover:scale-[1.02] transition" />
+                            )}
                         </div>
                         <div className="p-4">
                             <h4 className="font-semibold text-sm">{a.title}</h4>
@@ -395,11 +471,22 @@ function Gallery({ items }) {
                                 Close
                             </button>
                         </div>
-                        <img
-                            src={items[openIndex].src}
-                            alt={items[openIndex].title}
-                            className="w-full h-auto rounded-xl shadow-2xl"
-                        />
+                        {items[openIndex].mediaType === "video" ? (
+                            <video
+                                src={items[openIndex].src}
+                                className="w-full h-auto rounded-xl shadow-2xl"
+                                controls
+                                autoPlay
+                                playsInline
+                                poster={items[openIndex].poster}
+                            />
+                        ) : (
+                            <img
+                                src={items[openIndex].src}
+                                alt={items[openIndex].title}
+                                className="w-full h-auto rounded-xl shadow-2xl"
+                            />
+                        )}
                         <div className="mt-3 text-center text-white">
                             <div className="font-semibold">{items[openIndex].title}</div>
                             <div className="text-sm opacity-90">
