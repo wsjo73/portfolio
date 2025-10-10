@@ -11,12 +11,12 @@ const RESEARCH = [
             "Modeled shallow-water equations to study Great Red Spot longevity; replicated vortex shedding phenomena.",
         tags: ["Fluid Dynamics", "Numerical Methods", "Python"],
         links: {
-            paper: "#",
-            code: "#",
-            poster: "#",
+            // paper: "#",
+            // code: "#",
+            // poster: "#",
         },
         cover:
-            "https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=1400&auto=format&fit=crop",
+            "/research/jupiter.png",
     },
     {
         title: "Application of Graph Neural Networks for Optimization and\n" +
@@ -28,23 +28,23 @@ const RESEARCH = [
         tags: ["Graph Neural Networks", "Optimization", "Transportation Networks", "PyTorch Geometric", "Deep Learning"],
         links: {
             paper: "/research/Graph Neural Network for Optimization.pdf",
-            code: "#",
-            poster: "#",
+            // code: "#",
+            // poster: "#",
         },
         cover:
-            "/research/subway.jpg",
+            "/research/subway.png",
     },
-    {
-        title: "Chaos in Pendulum Lattices",
-        role: "Independent Study",
-        year: "2024",
-        summary:
-            "Explored sensitivity to initial conditions in coupled pendula; estimated Lyapunov exponents and mapped phase space.",
-        tags: ["Chaos Theory", "Dynamical Systems", "Mathematica"],
-        links: { paper: "#" },
-        cover:
-            "https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?q=80&w=1400&auto=format&fit=crop",
-    },
+    // {
+    //     title: "Chaos in Pendulum Lattices",
+    //     role: "Independent Study",
+    //     year: "2024",
+    //     summary:
+    //         "Explored sensitivity to initial conditions in coupled pendula; estimated Lyapunov exponents and mapped phase space.",
+    //     tags: ["Chaos Theory", "Dynamical Systems", "Mathematica"],
+    //     links: { paper: "#" },
+    //     cover:
+    //         "https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?q=80&w=1400&auto=format&fit=crop",
+    // },
 ];
 
 const ART = [
