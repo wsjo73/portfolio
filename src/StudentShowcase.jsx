@@ -408,7 +408,7 @@ export default function StudentShowcase() {
                 <div className="grid gap-6 sm:grid-cols-3">
                     <div className="sm:col-span-2">
                         <p className="text-slate-700 leading-7">
-                            Hi! I’m <span className="font-semibold">Your Name</span>, a student who loves building
+                            Hi! I’m <span className="font-semibold">Andrew Jo</span>, a student who loves building
                             things at the intersection of science and art. I enjoy research in
                             <span className="font-medium"> computer vision, fluid dynamics, and dynamical systems</span> and I create
                             artwork in both traditional and digital mediums.
