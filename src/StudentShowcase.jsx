@@ -59,7 +59,7 @@ const ART = [
         posterFrom: "last-frame",
     },
     {
-        title: "City Last Audience 1",
+        title: "City Last Audience",
         medium: "35mm film",
         category: "Photography",
         year: "2024",
