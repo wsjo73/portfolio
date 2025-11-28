@@ -605,22 +605,24 @@ function Gallery({ items }) {
                                 Close
                             </button>
                         </div>
-                        {items[openIndex].mediaType === "video" ? (
-                            <video
-                                src={items[openIndex].src}
-                                className="w-full h-auto rounded-xl shadow-2xl"
-                                controls
-                                autoPlay
-                                playsInline
-                                poster={items[openIndex].poster}
-                            />
-                        ) : (
-                            <img
-                                src={items[openIndex].src}
-                                alt={items[openIndex].title}
-                                className="w-full h-auto rounded-xl shadow-2xl"
-                            />
-                        )}
+                        <div className="flex justify-center">
+                            {items[openIndex].mediaType === "video" ? (
+                                <video
+                                    src={items[openIndex].src}
+                                    className="block mx-auto w-full h-auto rounded-xl shadow-2xl"
+                                    controls
+                                    autoPlay
+                                    playsInline
+                                    poster={items[openIndex].poster}
+                                />
+                            ) : (
+                                <img
+                                    src={items[openIndex].src}
+                                    alt={items[openIndex].title}
+                                    className="block mx-auto w-auto h-auto max-w-[66.6667vw] max-h-[75vh] rounded-xl shadow-2xl object-contain"
+                                />
+                            )}
+                        </div>
                         <div className="mt-3 text-center text-white">
                             <div className="font-semibold">{items[openIndex].title}</div>
                             <div className="text-sm opacity-90">
