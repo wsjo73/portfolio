@@ -10,8 +10,9 @@ const RESEARCH = [
         summary:
             "Modeled shallow-water equations to study Great Red Spot longevity; replicated vortex shedding phenomena.",
         tags: ["Fluid Dynamics", "Numerical Methods", "Python"],
+        award: { label: "AIGC Gold Award", certificate: "/research/AIGC-Gold-Certificate.pdf" },
         links: {
-            // paper: "#",
+            paper: "/research/Jupiter_Shallow_Water_Equations_Research.pdf",
             // code: "#",
             // poster: "#",
         },
@@ -267,6 +268,7 @@ const Card = ({ children }) => (
 export default function StudentShowcase() {
     const [showResume, setShowResume] = useState(false);
     const [resumeUrl] = useState('/resume.pdf');
+    const [pdfViewer, setPdfViewer] = useState(null); // { url, title }
     const [artFilter, setArtFilter] = useState("All");
     const artCategories = useMemo(
         () => ["All", ...Array.from(new Set(ART.map((a) => a.category)))],
@@ -343,8 +345,14 @@ export default function StudentShowcase() {
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {RESEARCH.map((r) => (
                         <Card key={r.title}>
-                            <div className="aspect-[16/9] w-full overflow-hidden">
+                            <div className="relative aspect-[16/9] w-full overflow-hidden">
                                 <img src={r.cover} alt="cover" className="h-full w-full object-cover" />
+                                {r.award && (
+                                    <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-amber-400 px-3 py-1 text-xs font-bold text-amber-900 shadow-md">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z" /></svg>
+                                        {r.award.label}
+                                    </span>
+                                )}
                             </div>
                             <div className="p-5">
                                 <div className="flex items-center justify-between gap-2">
@@ -360,13 +368,22 @@ export default function StudentShowcase() {
                                 </div>
                                 <div className="mt-4 flex flex-wrap gap-3 text-sm">
                                     {r.links.paper && (
-                                        <a href={r.links.paper} className="underline underline-offset-4">Paper</a>
+                                        <button onClick={() => setPdfViewer({ url: r.links.paper, title: r.title })} className="inline-flex items-center gap-1.5 rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-slate-700">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                            Read Paper
+                                        </button>
+                                    )}
+                                    {r.award?.certificate && (
+                                        <button onClick={() => setPdfViewer({ url: r.award.certificate, title: r.award.label })} className="inline-flex items-center gap-1.5 rounded-lg border border-amber-400 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-800 transition-colors hover:bg-amber-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z" /></svg>
+                                            View Certificate
+                                        </button>
                                     )}
                                     {r.links.code && (
-                                        <a href={r.links.code} className="underline underline-offset-4">Code</a>
+                                        <a href={r.links.code} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100">Code</a>
                                     )}
                                     {r.links.poster && (
-                                        <a href={r.links.poster} className="underline underline-offset-4">Poster</a>
+                                        <a href={r.links.poster} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100">Poster</a>
                                     )}
                                 </div>
                             </div>
@@ -398,6 +415,7 @@ export default function StudentShowcase() {
                 <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
                     {[
                         // "Regeneron STS Semifinalist (Top 300)",
+                        "AIGC Gold Award – Turbulence Patterns on Jupiter",
                         "FIRST Robotics – Scouting Lead, Worlds qualifier",
                         "MIT Beaver Works – Dr. Bob Disruptive Engineering Award",
                         "AIME Qualifier",
@@ -455,6 +473,42 @@ export default function StudentShowcase() {
             <footer className="py-10 text-center text-xs text-slate-500">
                 © {new Date().getFullYear()} Your Name. All rights reserved.
             </footer>
+
+            {/* PDF Viewer Modal */}
+            {pdfViewer && (
+                <div
+                    className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+                    onClick={() => setPdfViewer(null)}
+                >
+                    <div className="bg-white w-full max-w-3xl rounded-2xl shadow-2xl border overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between px-4 py-3 border-b">
+                            <h3 className="font-semibold">{pdfViewer.title}</h3>
+                            <div className="flex items-center gap-2">
+                                <a
+                                    href={pdfViewer.url}
+                                    download
+                                    className="text-sm rounded-xl border px-3 py-1.5 hover:shadow-sm"
+                                >
+                                    Download PDF
+                                </a>
+                                <button
+                                    onClick={() => setPdfViewer(null)}
+                                    className="text-sm rounded-xl border px-3 py-1.5 hover:shadow-sm"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                        <div className="h-[70vh] bg-slate-50">
+                            <iframe
+                                title={pdfViewer.title}
+                                src={`${pdfViewer.url}#view=FitH`}
+                                className="w-full h-full"
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Resume Modal */}
             {showResume && (
